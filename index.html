@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zespół Szkół XYZ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fb;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 250px auto 300px;
+            height: 100vh;
+        }
+
+        .sidebar {
+            background-color: #4c49d2;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .sidebar .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .sidebar .menu {
+            width: 100%;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            color: white;
+            text-decoration: none;
+            margin: 5px 0;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        .menu-item .icon {
+            width: 20px;
+            height: 20px;
+            background-color: #6a68ef;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+
+        .menu-item.active, .menu-item:hover {
+            background-color: #6a68ef;
+        }
+
+        .main-content {
+            padding: 20px;
+            background-color: white;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .main-header {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .header-right {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-align: right;
+        }
+
+        .current-date {
+            font-size: 0.9rem;
+            color: #777;
+            margin-bottom: 10px;
+        }
+
+        .search-bar {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 300px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            flex: 1;
+            background-color: #f0f4ff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .stat-box span {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .charts {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .chart {
+            flex: 1;
+            background-color: #fff7e6;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .events {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .calendar {
+            flex: 1;
+            background-color: #eff6ff;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .upcoming-events {
+            flex: 1;
+            padding: 20px;
+            background-color: #f7f7f7;
+            border-radius: 10px;
+        }
+
+        .upcoming-events h3 {
+            margin-top: 0;
+        }
+
+        .event-item {
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .right-panel {
+            background-color: #f9faff;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: #ccc;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .user-info {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .user-role {
+            font-size: 0.8rem;
+            color: #777;
+        }
+
+        .notification-buttons button {
+            background-color: #ddd;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        .students-list {
+            margin-bottom: 20px;
+        }
+
+        .student {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #eff6ff;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            
+        }
+
+        .student .class {
+            font-size: 0.8rem;
+            color: #555;
+        }
+
+        .student-options {
+            background-color: #ddd;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .messages-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            margin-bottom: 20px;
+        }
+
+        .message-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .message-item:last-child {
+            border-bottom: none;
+        }
+
+        .message-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .message-icon {
+            width: 30px;
+            height: 30px;
+            background-color: #ccc;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .message-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message-title {
+            font-weight: bold;
+        }
+
+        .message-timestamp {
+            font-size: 0.8rem;
+            color: #777;
+        }
+
+        .logout-button{
+            background-color: #af5159;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            display: block;
+            margin: 10px auto;
+
+        }
+        .more-button {
+            background-color: #4c49d2;
+            color: white;
+            width: 200px;
+            padding: 10px 20px;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            display: block;
+            margin: 10px auto;
+        }
+
+        .logout-button:hover{
+            background-color: #d88289;
+        }
+        .more-button:hover {
+            background-color: #6a68ef;
+        }
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f0f4ff;
+            padding: 20px 350px;
+            border-radius: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .stat-icon.students {
+            background-color: #4c49d2;
+            color: white;
+        }
+
+        .stat-icon.teachers {
+            background-color: #ff6d4a;
+            color: white;
+        }
+
+        .stat-icon.online {
+            background-color: #54ff4a;
+            color: white;
+        }
+
+        .stat-count {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2e3150;
+        }
+
+        .stat-label {
+            font-size: 24px;
+            color: #888;
+        }
+        .calendar-container {
+            width: 300px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .calendar-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            text-align: center;
+        }
+
+        .day {
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            font-size: 14px;
+            font-weight: 400;
+            background-color: white;
+        }
+
+        .day:hover {
+            background-color: #f0f0f0;
+            cursor: pointer;
+        }
+
+        .highlight-circle {
+            background-color: #4c49d2;
+            color: white;
+            border-radius: 50%;
+        }
+
+        .highlight-range {
+            background-color: #ffcccc;
+            color: black;
+        }
+
+        .day-name {
+            font-weight: 600;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .empty {
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Pasek boczny -->
+        <aside class="sidebar">
+            <div class="logo">Zespół Szkół XYZ</div>
+            <nav class="menu">
+                <a href="#" class="menu-item active">
+                    <div class="icon"></div> Strona główna
+                </a>
+                <a href="sekretariat.html" class="menu-item">
+                    <div class="icon"></div> Uczniowie
+                </a>
+                <a href="#" class="menu-item">
+                    <div class="icon"></div> Nauczyciele
+                </a>
+                <a href="#" class="menu-item">
+                    <div class="icon"></div> Plan zajęć
+                </a>
+                <a href="#" class="menu-item">
+                    <div class="icon"></div> Finanse
+                </a>
+                <a href="#" class="menu-item">
+                    <div class="icon"></div> Poczta
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Główna zawartość -->
+        <main class="main-content">
+            <div class="main-header">Strona Główna</div>
+            <div class="header-right">
+                <div class="current-date">09.12.2024, 14:30</div>
+                <input type="text" placeholder="Szukaj..." class="search-bar">
+            </div>
+            <br>
+            <section class="stats">
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <div class="stat-icon students">
+                            <span>👩‍🎓</span>
+                        </div>
+                        <div class="stat-count">5321</div>
+                        <div class="stat-label">Uczniowie</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon teachers">
+                            <span>👨‍🏫</span>
+                        </div>
+                        <div class="stat-count">254</div>
+                        <div class="stat-label">Nauczyciele</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon online">
+                            <span>👤</span>
+                        </div>
+                        <div class="stat-count">147</div>
+                        <div class="stat-label">Online</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="charts">
+                <div class="chart" id="chart-level">
+                    <h3>Poziom Zespołu szkół XYZ w roku szkolnym 2024/2025</h3>
+                    <div class="placeholder">
+                        <svg viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Oś X -->
+                            <line x1="50" y1="150" x2="450" y2="150" stroke="black" stroke-width="2" />
+                            <!-- Oś Y -->
+                            <line x1="50" y1="150" x2="50" y2="50" stroke="black" stroke-width="2" />
+                        
+                            <!-- Podziałka na osi Y -->
+                            <text x="30" y="150" font-size="10" font-family="Poppins" fill="black">70</text>
+                            <text x="30" y="100" font-size="10" font-family="Poppins" fill="black">75</text>
+                            <text x="30" y="50" font-size="10" font-family="Poppins" fill="black">80</text>
+                        
+                            <!-- Podziałka na osi X -->
+                            <text x="70" y="170" font-size="10" font-family="Poppins" fill="black">Wrzesień</text>
+                            <text x="150" y="170" font-size="10" font-family="Poppins" fill="black">Październik</text>
+                            <text x="230" y="170" font-size="10" font-family="Poppins" fill="black">Listopad</text>
+                            <text x="310" y="170" font-size="10" font-family="Poppins" fill="black">Grudzień</text>
+                            <text x="390" y="170" font-size="10" font-family="Poppins" fill="black">Styczeń</text>
+                        
+                            <!-- Średnia wartość -->
+                            <line x1="50" y1="100" x2="450" y2="100" stroke="#d3d3d3" stroke-dasharray="5,5" stroke-width="1" />
+                            
+                        
+                            <!-- Wykres (linia rzeczywista) -->
+                            <polyline 
+                                fill="none" 
+                                stroke="#4c49d2" 
+                                stroke-width="3" 
+                                points="70,140 150,120 230,110 310,130" 
+                            />
+                        
+                            <!-- Wykres (linia przewidywana) -->
+                            <polyline 
+                                fill="none" 
+                                stroke="#4c49d2" 
+                                stroke-width="2" 
+                                stroke-dasharray="5,5" 
+                                points="310,130 390,110" 
+                            />
+                        
+                            <!-- Punkty danych (rzeczywiste) -->
+                            <circle cx="70" cy="140" r="4" fill="#4c49d2" />
+                            <circle cx="150" cy="120" r="4" fill="#4c49d2" />
+                            <circle cx="230" cy="110" r="4" fill="#4c49d2" />
+                            <circle cx="310" cy="130" r="4" fill="#4c49d2" />
+                        
+                            <!-- Punkty danych (przewidywane) -->
+                            <circle cx="390" cy="110" r="4" fill="#ff6347" />
+                        </svg>
+                        
+                        
+                    </div>
+                </div>
+                <div class="chart" id="chart-finances">
+                    <h3>Finanse szkolne</h3>
+                    <div class="placeholder">
+                        <svg viewBox="0 0 500 250" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Oś X -->
+                            <line x1="50" y1="200" x2="450" y2="200" stroke="black" stroke-width="2" />
+                            <!-- Oś Y -->
+                            <line x1="50" y1="200" x2="50" y2="50" stroke="black" stroke-width="2" />
+                        
+                            <!-- Podziałka na osi Y -->
+                            <text x="30" y="200" font-size="10" font-family="Poppins" fill="black">0</text>
+                            <text x="30" y="150" font-size="10" font-family="Poppins" fill="black">50</text>
+                            <text x="30" y="100" font-size="10" font-family="Poppins" fill="black">100</text>
+                            <text x="30" y="50" font-size="10" font-family="Poppins" fill="black">150</text>
+                        
+                            <!-- Podziałka na osi X -->
+                            <text x="80" y="220" font-size="10" font-family="Poppins" fill="black">Wrzesień</text>
+                            <text x="150" y="220" font-size="10" font-family="Poppins" fill="black">Październik</text>
+                            <text x="220" y="220" font-size="10" font-family="Poppins" fill="black">Listopad</text>
+                            <text x="290" y="220" font-size="10" font-family="Poppins" fill="black">Grudzień</text>
+                            <text x="360" y="220" font-size="10" font-family="Poppins" fill="black">Styczeń</text>
+                        
+                            <!-- Słupki dla Września -->
+                            <rect x="70" y="140" width="20" height="60" fill="#ff6347" />
+                            <rect x="95" y="120" width="20" height="80" fill="#4c49d2" />
+                        
+                            <!-- Słupki dla Października -->
+                            <rect x="140" y="130" width="20" height="70" fill="#ff6347" />
+                            <rect x="165" y="100" width="20" height="100" fill="#4c49d2" />
+                        
+                            <!-- Słupki dla Listopada -->
+                            <rect x="210" y="150" width="20" height="50" fill="#ff6347" />
+                            <rect x="235" y="90" width="20" height="110" fill="#4c49d2" />
+                        
+                            <!-- Słupki dla Grudnia -->
+                            <rect x="280" y="120" width="20" height="80" fill="#ff6347" />
+                            <rect x="305" y="70" width="20" height="130" fill="#4c49d2" />
+                        
+                            <!-- Słupki dla Stycznia (przewidywane, bledsze) -->
+                            <rect x="350" y="130" width="20" height="70" fill="#ffa1a1" />
+                            <rect x="375" y="110" width="20" height="90" fill="#a1b6ff" />
+                        
+                            <!-- Legenda -->
+                            <rect x="400" y="60" width="10" height="10" fill="#ff6347" />
+                            <text x="415" y="70" font-size="10" font-family="Poppins" fill="black">Wydatki</text>
+                            <rect x="400" y="80" width="10" height="10" fill="#4c49d2" />
+                            <text x="415" y="90" font-size="10" font-family="Poppins" fill="black">Przychody</text>
+                            
+                        </svg>
+                        
+                    </div>
+                </div>
+            </section>
+
+            <section class="events">
+                <div class="calendar">
+                    <div class="placeholder">
+                        <div class="calendar-container">
+                            <div class="calendar-header">
+                                <h3>Wydarzenia</h3>
+                                <span>Grudzień 2024</span>
+                            </div>
+                            <div class="calendar-grid">
+                                <!-- Dni tygodnia -->
+                                <div class="day-name">Pon</div>
+                                <div class="day-name">Wt</div>
+                                <div class="day-name">Śr</div>
+                                <div class="day-name">Czw</div>
+                                <div class="day-name">Pt</div>
+                                <div class="day-name">Sb</div>
+                                <div class="day-name">Nie</div>
+                    
+                                <!-- Puste pola przed 1 grudnia -->
+                                <div class="empty"></div>
+                                <div class="empty"></div>
+                                <div class="empty"></div>
+                                <div class="empty"></div>
+                                <div class="empty"></div>
+                                <div class="empty"></div>
+                                <div class="day">1</div>
+                    
+                                <!-- Dni miesiąca -->
+                                <div class="day">2</div>
+                                <div class="day">3</div>
+                                <div class="day">4</div>
+                                <div class="day">5</div>
+                                <div class="day highlight-circle">6</div>
+                                <div class="day">7</div>
+                                <div class="day">8</div>
+                                <div class="day">9</div>
+                                <div class="day">10</div>
+                                <div class="day">11</div>
+                                <div class="day">12</div>
+                                <div class="day">13</div>
+                                <div class="day">14</div>
+                                <div class="day">15</div>
+                                <div class="day">16</div>
+                                <div class="day highlight-circle">17</div>
+                                <div class="day">18</div>
+                                <div class="day">19</div>
+                                <div class="day">20</div>
+                                <div class="day highlight-range">21</div>
+                                <div class="day highlight-range">22</div>
+                                <div class="day highlight-range">23</div>
+                                <div class="day highlight-range">24</div>
+                                <div class="day highlight-range">25</div>
+                                <div class="day highlight-range">26</div>
+                                <div class="day highlight-range">27</div>
+                                <div class="day highlight-range">28</div>
+                                <div class="day highlight-range">29</div>
+                                <div class="day highlight-range">30</div>
+                                <div class="day highlight-range">31</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="upcoming-events">
+                    <h3>Nadchodzące wydarzenia</h3>
+                    <div class="event-item">Szkolne Mikołakji - 06.12.2024</div>
+                    <div class="event-item">Jasełka Szkolne - 17.12.2024, 14:30</div>
+                    <div class="event-item">Przerwa Świąteczna - 21.12.2024 - 02.01.2025</div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Panel boczny po prawej -->
+        <aside class="right-panel">
+            <div class="user-section">
+                <div class="user-avatar"></div>
+                <div>
+                    <div class="user-info">Grażyna Zarko</div>
+                    <div class="user-role">Sekretariat</div>
+                </div>
+                <div class="notification-buttons">
+                    <button>🔔</button>
+                    <button>⚙️</button>
+                </div>
+            </div>
+            <section class="students-list">
+                <h3>Lista uczniów</h3>
+                <div class="student">
+                    <span>Jan Kowalski</span>
+                    <span class="class">Klasa IV A</span>
+                    <button class="student-options">⋮</button>
+                </div>
+                <div class="student">
+                    <span>Anna Nowak</span>
+                    <span class="class">Klasa V B</span>
+                    <button class="student-options">⋮</button>
+                </div>
+                <div class="student">
+                    <span>Paweł Wiśniewski</span>
+                    <span class="class">Klasa VI C</span>
+                    <button class="student-options">⋮</button>
+                </div>
+                <div class="student">
+                    <span>Zuzanna Lis</span>
+                    <span class="class">Klasa VII A</span>
+                    <button class="student-options">⋮</button>
+                </div>
+                <div class="student">
+                    <span>Filip Wójcik</span>
+                    <span class="class">Klasa VIII B</span>
+                    <button class="student-options">⋮</button>
+                </div>
+                
+                <button class="more-button">Więcej</button>
+            </section>
+            <section class="students-list">
+                <h3>Lista Nauczycieli</h3>
+                <div class="student">
+                    <span>mgr. Katarzyna Włodarczyk</span>
+                    <span class="class">Matematyka</span>
+                    <button class="student-options">⋮</button>
+                </div>
+                <div class="student">
+                    <span>mgr. Paweł Kot</span>
+                    <span class="class">J. Angielski</span>
+                    <button class="student-options">⋮</button>
+                </div>
+                <div class="student">
+                    <span>mgr. Dorota Bąk</span>
+                    <span class="class">Biologia</span>
+                    <button class="student-options">⋮</button>
+                </div>
+                <div class="student">
+                    <span>mgr. Krzysztof Grabowski</span>
+                    <span class="class">Geografia</span>
+                    <button class="student-options">⋮</button>
+                </div>
+               
+                
+                
+                <button class="more-button">Więcej</button>
+            </section>
+            <section class="messages">
+                <h3>Ostatnie wiadomości</h3>
+                <ul class="messages-list">
+                    <li class="message-item">
+                        <div class="message-content">
+                            <div class="message-icon"></div>
+                            <div class="message-info">
+                                <div class="message-title">Iwona Czarnecka</div>
+                                <div class="message-timestamp">dzisiaj 12:45</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="message-item">
+                        <div class="message-content">
+                            <div class="message-icon"></div>
+                            <div class="message-info">
+                                <div class="message-title">Jakub Kmieć</div>
+                                <div class="message-timestamp">Wt 21:47 </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <button class="more-button">Więcej</button>
+            </section>
+            <button class="logout-button">Wyloguj się</button>
+        </aside>
+    </div>
+</body>
+</html>

@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uczniowie - Zespół Szkół XYZ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fb;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 250px auto 300px;
+            height: 100vh;
+        }
+
+        .sidebar {
+            background-color: #4c49d2;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .sidebar .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .sidebar .menu {
+            width: 100%;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            color: white;
+            text-decoration: none;
+            margin: 5px 0;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        .menu-item .icon {
+            width: 20px;
+            height: 20px;
+            background-color: #6a68ef;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+
+        .menu-item.active, .menu-item:hover {
+            background-color: #6a68ef;
+        }
+
+        .main-content {
+            padding: 20px;
+            background-color: white;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .main-header {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .header-right {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-align: right;
+        }
+
+        .current-date {
+            font-size: 0.9rem;
+            color: #777;
+            margin-bottom: 10px;
+        }
+
+        .search-bar {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 300px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            flex: 1;
+            background-color: #f0f4ff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .stat-box span {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .charts {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .chart {
+            flex: 1;
+            background-color: #fff7e6;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .events {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .calendar {
+            flex: 1;
+            background-color: #eff6ff;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .upcoming-events {
+            flex: 1;
+            padding: 20px;
+            background-color: #f7f7f7;
+            border-radius: 10px;
+        }
+
+        .upcoming-events h3 {
+            margin-top: 0;
+        }
+
+        .event-item {
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .right-panel {
+            background-color: #f9faff;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: #ccc;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .user-info {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .user-role {
+            font-size: 0.8rem;
+            color: #777;
+        }
+
+        .notification-buttons button {
+            background-color: #ddd;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        .students-list {
+            margin-bottom: 20px;
+        }
+
+        .student {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #eff6ff;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            
+        }
+
+        .student .class {
+            font-size: 0.8rem;
+            color: #555;
+        }
+
+        .student-options {
+            background-color: #ddd;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .messages-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            margin-bottom: 20px;
+        }
+
+        .message-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .message-item:last-child {
+            border-bottom: none;
+        }
+
+        .message-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .message-icon {
+            width: 30px;
+            height: 30px;
+            background-color: #ccc;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .message-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message-title {
+            font-weight: bold;
+        }
+
+        .message-timestamp {
+            font-size: 0.8rem;
+            color: #777;
+        }
+
+        .logout-button{
+            background-color: #af5159;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            display: block;
+            margin: 10px auto;
+
+        }
+        .more-button {
+            background-color: #4c49d2;
+            color: white;
+            width: 200px;
+            padding: 10px 20px;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            display: block;
+            margin: 10px auto;
+        }
+
+        .logout-button:hover{
+            background-color: #d88289;
+        }
+        .more-button:hover {
+            background-color: #6a68ef;
+        }
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f0f4ff;
+            padding: 20px 350px;
+            border-radius: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .stat-icon.students {
+            background-color: #4c49d2;
+            color: white;
+        }
+
+        .stat-icon.teachers {
+            background-color: #ff6d4a;
+            color: white;
+        }
+
+        .stat-icon.online {
+            background-color: #54ff4a;
+            color: white;
+        }
+
+        .stat-count {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2e3150;
+        }
+
+        .stat-label {
+            font-size: 24px;
+            color: #888;
+        }
+        .calendar-container {
+            width: 300px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .calendar-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            text-align: center;
+        }
+
+        .day {
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            font-size: 14px;
+            font-weight: 400;
+            background-color: white;
+        }
+
+        .day:hover {
+            background-color: #f0f0f0;
+            cursor: pointer;
+        }
+
+        .highlight-circle {
+            background-color: #4c49d2;
+            color: white;
+            border-radius: 50%;
+        }
+
+        .highlight-range {
+            background-color: #ffcccc;
+            color: black;
+        }
+
+        .day-name {
+            font-weight: 600;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .empty {
+            visibility: hidden;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fb;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 250px auto 300px;
+            height: 100vh;
+        }
+
+        .sidebar {
+            background-color: #4c49d2;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .sidebar .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .sidebar .menu {
+            width: 100%;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            color: white;
+            text-decoration: none;
+            margin: 5px 0;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        .menu-item .icon {
+            width: 20px;
+            height: 20px;
+            background-color: #6a68ef;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+
+        .menu-item.active, .menu-item:hover {
+            background-color: #6a68ef;
+        }
+
+        .main-content {
+            padding: 20px;
+            background-color: white;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .main-header {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .header-right {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-align: right;
+        }
+
+        .current-date {
+            font-size: 0.9rem;
+            color: #777;
+            margin-bottom: 10px;
+        }
+
+        .search-bar {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 300px;
+        }
+
+        .stat {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .add-student-button {
+        background-color: #4c49d2;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        margin-left: auto; /* Wyrównanie do prawej */
+        display: block; /* Gwarantuje, że działa w elastycznych układach */
+    }
+
+        .add-student-button:hover {
+            background-color: #6a68ef;
+        }
+
+        .sort-container {
+            margin-bottom: 20px;
+        }
+
+        .sort-container select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .students-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .student {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #eff6ff;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .student-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: #ccc;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .student-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .student-options {
+            background-color: #ddd;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .pagination button {
+            background-color: #ddd;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .pagination button:hover {
+            background-color: #bbb;
+        }
+
+        .pagination button.active {
+            background-color: #4c49d2;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Pasek boczny -->
+        <aside class="sidebar">
+            <div class="logo">Zespół Szkół XYZ</div>
+            <nav class="menu">
+                <a href="sekretariat_landing_page.html" class="menu-item">
+                    <div class="icon"></div> Strona główna
+                </a>
+                <a href="#" class="menu-item active">
+                    <div class="icon"></div> Uczniowie
+                </a>
+                <a href="#" class="menu-item">
+                    <div class="icon"></div> Nauczyciele
+                </a>
+                <a href="#" class="menu-item">
+                    <div class="icon"></div> Plan zajęć
+                </a>
+                <a href="#" class="menu-item">
+                    <div class="icon"></div> Finanse
+                </a>
+                <a href="#" class="menu-item">
+                    <div class="icon"></div> Poczta
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Główna zawartość -->
+        <main class="main-content">
+            <div class="header-right">
+                <div class="current-date">09.12.2024, 14:30</div>
+                <input type="text" placeholder="Szukaj ucznia..." class="search-bar">
+            </div>
+            <div class="stat">
+                Liczba uczniów: 5321, Online: 147
+                <br>
+                <br>
+                
+            </div>
+           
+            
+            <div class="sort-container">
+                <label for="sort">Sortuj po klasach:</label>
+                <select id="sort">
+                    <option value="all">Wszystkie klasy</option>
+                    <option value="4">Klasa IV</option>
+                    <option value="5">Klasa V</option>
+                    <option value="6">Klasa VI</option>
+                    <option value="7">Klasa VII</option>
+                    <option value="8">Klasa VIII</option>
+                </select>
+                <button class="add-student-button" onclick="window.location.href='dodajucznia.html'">+ Dodaj nowego ucznia</button>
+
+            </div>
+            <div class="students-list">
+                <div class="student">
+                    <div class="student-info">
+                        <div class="student-avatar"></div>
+                        <div>
+                            <strong>Jan Kowalski</strong>
+                            <div class="class">Klasa IV A</div>
+                        </div>
+                    </div>
+                    <button class="student-options">⋮</button>
+                </div>
+                <div class="student">
+                    <div class="student-info">
+                        <div class="student-avatar"></div>
+                        <div>
+                            <strong>Anna Nowak</strong>
+                            <div class="class">Klasa V B</div>
+                        </div>
+                    </div>
+                    <button class="student-options">⋮</button>
+                </div>
+                <div class="student">
+                    <div class="student-info">
+                        <div class="student-avatar"></div>
+                        <div>
+                            <strong>Paweł Wiśniewski</strong>
+                            <div class="class">Klasa VI C</div>
+                        </div>
+                    </div>
+                    <button class="student-options">⋮</button>
+                </div>
+                <div class="student">
+                    <div class="student-info">
+                        <div class="student-avatar"></div>
+                        <div>
+                            <strong>Magdalena Zielińska</strong>
+                            <div class="class">Klasa VII A</div>
+                        </div>
+                    </div>
+                    <button class="student-options">⋮</button>
+                </div>
+                <div class="student">
+                    <div class="student-info">
+                        <div class="student-avatar"></div>
+                        <div>
+                            <strong>Filip Wójcik</strong>
+                            <div class="class">Klasa VIII B</div>
+                        </div>
+                    </div>
+                    <button class="student-options">⋮</button>
+                </div>
+                <div class="student">
+                    <div class="student-info">
+                        <div class="student-avatar"></div>
+                        <div>
+                            <strong>Katarzyna Wójcik</strong>
+                            <div class="class">Klasa V C</div>
+                        </div>
+                    </div>
+                    <button class="student-options">⋮</button>
+                </div>
+                <div class="student">
+                    <div class="student-info">
+                        <div class="student-avatar"></div>
+                        <div>
+                            <strong>Mateusz Wiśniewski</strong>
+                            <div class="class">Klasa VI A</div>
+                        </div>
+                    </div>
+                    <button class="student-options">⋮</button>
+                </div>
+                <div class="student">
+                    <div class="student-info">
+                        <div class="student-avatar"></div>
+                        <div>
+                            <strong>Monika Lewandowska</strong>
+                            <div class="class">Klasa VII B</div>
+                        </div>
+                    </div>
+                    <button class="student-options">⋮</button>
+                </div>
+                <div class="student">
+                    <div class="student-info">
+                        <div class="student-avatar"></div>
+                        <div>
+                            <strong>Krzysztof Kowalski</strong>
+                            <div class="class">Klasa VIII C</div>
+                        </div>
+                    </div>
+                    <button class="student-options">⋮</button>
+                </div>
+            </div>
+            <div class="pagination">
+                <button class="active">1</button>
+                <button>2</button>
+                <button>3</button>
+                <button>4</button>
+                <button>5</button>
+                <button>6</button>
+                <button>7</button>
+                <button>8</button>
+                <button>9</button>
+                <button>10</button>
+                <button>11</button>
+                <button>12</button>
+            </div>
+        </main>
+
+        <!-- Panel boczny po prawej -->
+        <aside class="right-panel">
+            <div class="user-section">
+                <div class="user-avatar"></div>
+                <div>
+                    <div class="user-info">Grażyna Zarko</div>
+                    <div class="user-role">Sekretariat</div>
+                </div>
+                <div class="notification-buttons">
+                    <button>🔔</button>
+                    <button>⚙️</button>
+                </div>
+            </div>
+            <section class="students-list">
+                <h3>Lista uczniów</h3>
+                <div class="student">
+                    <span>Jan Kowalski</span>
+                    <span class="class">Klasa IV A</span>
+                    <button class="student-options">⋮</button>
+                </div>
+                <div class="student">
+                    <span>Anna Nowak</span>
+                    <span class="class">Klasa V B</span>
+                    <button class="student-options">⋮</button>
+                </div>
+                <div class="student">
+                    <span>Paweł Wiśniewski</span>
+                    <span class="class">Klasa VI C</span>
+                    <button class="student-options">⋮</button>
+                </div>
+                <div class="student">
+                    <span>Zuzanna Lis</span>
+                    <span class="class">Klasa VII A</span>
+                    <button class="student-options">⋮</button>
+                </div>
+                <div class="student">
+                    <span>Filip Wójcik</span>
+                    <span class="class">Klasa VIII B</span>
+                    <button class="student-options">⋮</button>
+                </div>
+                
+                <button class="more-button">Więcej</button>
+            </section>
+            <section class="students-list">
+                <h3>Lista Nauczycieli</h3>
+                <div class="student">
+                    <span>mgr. Katarzyna Włodarczyk</span>
+                    <span class="class">Matematyka</span>
+                    <button class="student-options">⋮</button>
+                </div>
+                <div class="student">
+                    <span>mgr. Paweł Kot</span>
+                    <span class="class">J. Angielski</span>
+                    <button class="student-options">⋮</button>
+                </div>
+                <div class="student">
+                    <span>mgr. Dorota Bąk</span>
+                    <span class="class">Biologia</span>
+                    <button class="student-options">⋮</button>
+                </div>
+                <div class="student">
+                    <span>mgr. Krzysztof Grabowski</span>
+                    <span class="class">Geografia</span>
+                    <button class="student-options">⋮</button>
+                </div>
+               
+                
+                
+                <button class="more-button">Więcej</button>
+            </section>
+            <section class="messages">
+                <h3>Ostatnie wiadomości</h3>
+                <ul class="messages-list">
+                    <li class="message-item">
+                        <div class="message-content">
+                            <div class="message-icon"></div>
+                            <div class="message-info">
+                                <div class="message-title">Iwona Czarnecka</div>
+                                <div class="message-timestamp">dzisiaj 12:45</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="message-item">
+                        <div class="message-content">
+                            <div class="message-icon"></div>
+                            <div class="message-info">
+                                <div class="message-title">Jakub Kmieć</div>
+                                <div class="message-timestamp">Wt 21:47 </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <button class="more-button">Więcej</button>
+            </section>
+            <button class="logout-button">Wyloguj się</button>
+        </aside>
+    </div>
+</body>
+</html>
