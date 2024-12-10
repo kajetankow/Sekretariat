@@ -22,10 +22,15 @@
         .sidebar {
             background-color: #4c49d2;
             color: white;
-            padding: 20px;
+            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
+        }
+
+        .sidebar-content {
+            padding: 20px;
+            width: 100%;
         }
 
         .sidebar .logo {
@@ -40,9 +45,19 @@
             padding: 10px 15px;
             color: white;
             text-decoration: none;
-            margin: 5px 0;
             border-radius: 5px;
             font-size: 0.9rem;
+            width: 85%;
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        .menu-item:not(:last-child) {
+            margin-bottom: 5px;
+        }
+
+        .menu-item.no-margin-bottom {
+            margin-bottom: 0;
         }
 
         .menu-item:hover, .menu-item.active {
@@ -140,8 +155,9 @@
         .photo-upload {
             grid-column: span 1;
             width: 100%;
-            max-width: 150px;
-            height: 150px;
+            margin-left: 150px;
+            max-width: 170px;
+            height: 230px;
             border: 2px dashed #ddd;
             border-radius: 5px;
             display: flex;
@@ -178,6 +194,15 @@
         }
 
         .save-button:hover {
+            background-color: #6a68ef;
+        }
+        .op-button {
+            background-color: #4c49d2;
+            color: white;
+            margin-right: 80%;
+        }
+
+        .op-button:hover {
             background-color: #6a68ef;
         }
 
@@ -224,22 +249,24 @@
     <div class="container">
         <!-- Pasek boczny -->
         <aside class="sidebar">
-            <div class="logo">Zespół Szkół XYZ</div>
-            <a href="index.html" class="menu-item">
-                <div class="icon"></div> Strona główna
-            </a>
-            <a href="sekretariat.html" class="menu-item active">
-                <div class="icon"></div> Uczniowie
-            </a>
-            <a href="#" class="menu-item">
-                <div class="icon"></div> Nauczyciele
-            </a>
-            <a href="#" class="menu-item">
-                <div class="icon"></div> Plan zajęć
-            </a>
-            <a href="#" class="menu-item">
-                <div class="icon"></div> Finanse
-            </a>
+            <div class="sidebar-content">
+                <div class="logo">Zespół Szkół XYZ</div>
+                <a href="index.html" class="menu-item">
+                    <div class="icon"></div> Strona główna
+                </a>
+                <a href="sekretariat.html" class="menu-item active no-margin-bottom">
+                    <div class="icon"></div> Uczniowie
+                </a>
+                <a href="#" class="menu-item">
+                    <div class="icon"></div> Nauczyciele
+                </a>
+                <a href="#" class="menu-item">
+                    <div class="icon"></div> Plan zajęć
+                </a>
+                <a href="#" class="menu-item">
+                    <div class="icon"></div> Finanse
+                </a>
+            </div>
         </aside>
 
         <!-- Główna zawartość -->
@@ -316,15 +343,8 @@
             </div>
 
             <!-- Sekcja: Szczegóły rodzica -->
-            <div class="section">
-                <div class="section-header">Dane rodzica</div>
-                <div class="radio-group">
-                    <input type="radio" id="yes" name="same-address" value="yes" checked onchange="toggleAddressFields(this.value)">
-                    <label for="yes">Adres taki jak uczeń</label>
-                    <input type="radio" id="no" name="same-address" value="no" onchange="toggleAddressFields(this.value)">
-                    <label for="no">Nie</label>
-                </div>
-                <div class="form-group parent-address">
+            <div class="section-header">Dane rodzica</div>
+                <div class="form-group">
                     <div>
                         <label>Imię *</label>
                         <input type="text">
@@ -341,33 +361,46 @@
                         <label>Telefon kontaktowy *</label>
                         <input type="tel">
                     </div>
+                </div>
+                <div>
+                    <p>Adres taki sam jak ucznia</p>
+                    <div class="radio-group">
+                        <input type="radio" id="yes" name="same-address" value="yes" checked onchange="toggleAddressFields(this.value)">
+                        <label for="yes">Tak</label>
+                        <input type="radio" id="no" name="same-address" value="no" onchange="toggleAddressFields(this.value)">
+                        <label for="no">Nie</label>
+                    </div>
+                </div>
+                <div class="form-group parent-address">
                     <div>
                         <label>Ulica</label>
-                        <input type="text">
+                        <input type="text" disabled class="disabled">
                     </div>
                     <div>
                         <label>Nr. budynku</label>
-                        <input type="text">
+                        <input type="text" disabled class="disabled">
                     </div>
                     <div>
                         <label>Nr. mieszkania</label>
-                        <input type="text">
+                        <input type="text" disabled class="disabled">
                     </div>
                     <div>
                         <label>Kod pocztowy</label>
-                        <input type="text">
+                        <input type="text" disabled class="disabled">
                     </div>
                     <div>
                         <label>Miejscowość</label>
-                        <input type="text">
+                        <input type="text" disabled class="disabled">
                     </div>
                 </div>
-            </div>
+            
 
             <!-- Przyciski zapisu -->
             <div class="form-actions">
+                <button class="op-button">+ Dodaj opiekuna</button>
                 <button class="save-template-button">Zapisz szablon</button>
                 <button class="save-button">Zapisz</button>
+                
             </div>
         </main>
     </div>
