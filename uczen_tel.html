@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dziennik Ucznia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f0f8ff;
+            color: #333;
+        }
+
+        /* Nagłówek */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #0077cc;
+            color: white;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .menu-toggle {
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Menu rozwijane */
+        #menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        #menu.active {
+            display: flex;
+        }
+
+        #menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            margin: 15px 0;
+            padding: 10px 20px;
+            background-color: #0077cc;
+            border-radius: 5px;
+            text-align: center;
+            width: 70%;
+            max-width: 300px;
+        }
+
+        #menu a:hover {
+            background-color: #005fa3;
+        }
+
+        /* Informacja o następnej lekcji */
+        .next-lesson {
+            text-align: center;
+            background-color: #e9d502;
+            padding: 10px;
+            font-weight: bold;
+            margin: 20px auto;
+            border-radius: 40px;
+            max-width: 90%;
+        }
+
+        /* Plan lekcji */
+        .timetable-container {
+            overflow-x: scroll;
+            display: flex;
+            gap: 20px;
+            padding: 10px;
+        }
+
+        .timetable-day {
+            min-width: 95%;
+            max-width: 95%;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+        }
+
+        .timetable-day h3 {
+            margin: 0 0 15px;
+            font-size: 1.2rem;
+            color: #0077cc;
+            text-align: center;
+        }
+
+        .lesson-box {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .lesson-box .time {
+            font-weight: bold;
+            color: #0077cc;
+        }
+
+        /* Powiadomienia, oceny, sprawdziany */
+        .box {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px auto;
+            width: 90%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .box h2 {
+            margin: 0 0 10px;
+            font-size: 1.3rem;
+            color: #0077cc;
+        }
+
+        .list-item {
+            background-color: #f5faff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .list-item button {
+            background-color: #0077cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .list-item button:hover {
+            background-color: #005fa3;
+        }
+
+        /* Stopka */
+        footer {
+            background-color: #003f73;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        footer a {
+            color: #f0f8ff;
+            text-decoration: underline;
+        }
+
+        footer .support {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Nagłówek -->
+    <header>
+        <h1>Witaj, Adam!</h1>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+    </header>
+
+    <!-- Menu rozwijane -->
+    <div id="menu">
+        <a href="#">Strona główna</a>
+        <a href="#">Plan zajęć</a>
+        <a href="#">Oceny</a>
+        <a href="#">Sprawdziany</a>
+        <a href="#">Zadania domowe</a>
+        <a href="#">Powiadomienia</a>
+        <a href="#" onclick="toggleMenu()">Zamknij</a>
+    </div>
+
+    <!-- Informacja o następnej lekcji -->
+    <div class="next-lesson">
+        <p>Następna lekcja: Geografia sala 3 za 5 minut</p>
+    </div>
+
+    <!-- Plan lekcji -->
+    <div class="timetable-container">
+        <!-- Dni tygodnia -->
+        <div class="timetable-day">
+            <h3>Poniedziałek</h3>
+            <div class="lesson-box">
+                <div class="time">08:00</div>
+                <div>Geografia</div>
+                <div>3 A - Kumity P.</div>
+                <div>Sala nr 3</div>
+            </div>
+            <div class="lesson-box">
+                <div class="time">08:55</div>
+                <div>Język polski</div>
+                <div>3 A - Bem B.</div>
+                <div>Sala nr 3</div>
+            </div>
+            <div class="lesson-box">
+                <div class="time">09:50</div>
+                <div>Matematyka</div>
+                <div>3 A - Urban K.</div>
+                <div>Sala nr 4</div>
+            </div>
+            <div class="lesson-box">
+                <div class="time">10:45</div>
+                <div>Język angielski</div>
+                <div>3 A - Koziełkowska Z.</div>
+                <div>Sala nr 3</div>
+            </div>
+            <div class="lesson-box">
+                <div class="time">11:40</div>
+                <div>Język angielski</div>
+                <div>3 A - Koziełkowska Z.</div>
+                <div>Sala nr 3</div>
+            </div>
+            <div class="lesson-box">
+                <div class="time">12:45</div>
+                <div>Muzyka</div>
+                <div>3 A - Nowak O.</div>
+                <div>Sala nr 3</div>
+            </div>
+        </div>
+
+        <div class="timetable-day">
+            <h3>Wtorek</h3>
+            <div class="lesson-box">
+                <div class="time">08:00</div>
+                <div>Religia</div>
+                <div>3 A - Rozmus M.</div>
+                <div>Sala nr 3</div>
+            </div>
+            <div class="lesson-box">
+                <div class="time">08:55</div>
+                <div>Chemia</div>
+                <div>3 A - Kowalski M.</div>
+                <div>Sala nr 3</div>
+            </div>
+            <div class="lesson-box">
+                <div class="time">09:50</div>
+                <div>Matematyka</div>
+                <div>3 A - Urban K.</div>
+                <div>Sala nr 4</div>
+            </div>
+            <div class="lesson-box">
+                <div class="time">10:45</div>
+                <div>Wiedza o społeczeństwie</div>
+                <div>3 A - Nowak J.</div>
+                <div>Sala nr 3</div>
+            </div>
+            <div class="lesson-box">
+                <div class="time">11:40</div>
+                <div>Fizyka</div>
+                <div>3 A - Tarnawa M.</div>
+                <div>Sala nr 3</div>
+            </div>
+        </div>
+
+        <div class="timetable-day">
+            <h3>Środa</h3>
+            <div class="lesson-box">
+                <div class="time">08:00</div>
+                <div>Matematyka</div>
+                <div>3 A - Urban K.</div>
+                <div>Sala nr 3</div>
+            </div>
+            <div class="lesson-box">
+                <div class="time">08:55</div>
+                <div>Język angielski</div>
+                <div>3 A - Koziełkowska Z.</div>
+                <div>Sala nr 3</div>
+            </div>
+            <div class="lesson-box">
+                <div class="time">09:50</div>
+                <div>Język polski</div>
+                <div>3 A - Bem B.</div>
+                <div>Sala nr 5</div>
+            </div>
+            <div class="lesson-box">
+                <div class="time">10:45</div>
+                <div>Język polski</div>
+                <div>3 A - Bem B.</div>
+                <div>Sala nr 5</div>
+            </div>
+            <div class="lesson-box">
+                <div class="time">11:40</div>
+                <div>Matematyka</div>
+                <div>3 A - Urban K.</div>
+                <div>Sala nr 3</div>
+            </div>
+        </div>
+
+        <div class="timetable-day">
+            <h3>Czwartek</h3>
+            <div class="lesson-box">
+                <div class="time">08:00</div>
+                <div>Język polski</div>
+                <div>3 A - Bem B.</div>
+                <div>Sala nr 3</div>
+            </div>
+            <div class="lesson-box">
+                <div class="time">08:55</div>
+                <div>Biologia</div>
+                <div>3 A - Stankiewicz K.</div>
+                <div>Sala nr 3</div>
+            </div>
+            <div class="lesson-box">
+                <div class="time">09:50</div>
+                <div>Historia</div>
+                <div>3 A - Nowak J.</div>
+                <div>Sala nr 4</div>
+            </div>
+            <div class="lesson-box">
+                <div class="time">10:45</div>
+                <div>Godzina wychowawcza</div>
+                <div>3 A - Nowak J.</div>
+                <div>Sala nr 3</div>
+            </div>
+            <div class="lesson-box">
+                <div class="time">11:40</div>
+                <div>Język niemiecki</div>
+                <div>3 A - Władza Z.</div>
+                <div>Sala nr 3</div>
+            </div>
+            <div class="lesson-box">
+                <div class="time">12:45</div>
+                <div>W-F</div>
+                <div>3 A chłopcy - Kowalski M.</div>
+                <div>Sala nr 3</div>
+            </div>
+        </div>
+
+        <div class="timetable-day">
+            <h3>Piątek</h3>
+            <div class="lesson-box">
+                <div class="time">08:00</div>
+                <div>Język polski</div>
+                <div>3 A - Bem B.</div>
+                <div>Sala nr 3</div>
+            </div>
+            <div class="lesson-box">
+                <div class="time">08:55</div>
+                <div>Biologia</div>
+                <div>3 A - Stankiewicz K.</div>
+                <div>Sala nr 3</div>
+            </div>
+            <div class="lesson-box">
+                <div class="time">09:50</div>
+                <div>Matematyka</div>
+                <div>3 A - Urban K.</div>
+                <div>Sala nr 4</div>
+            </div>
+            <div class="lesson-box">
+                <div class="time">10:45</div>
+                <div>Biologia</div>
+                <div>3 A - Stankiewicz K.</div>
+                <div>Sala nr 3</div>
+            </div>
+            <div class="lesson-box">
+                <div class="time">11:40</div>
+                <div>Chemia</div>
+                <div>3 A - Kowalski M.</div>
+                <div>Sala nr 3</div>
+            </div>
+            <div class="lesson-box">
+                <div class="time">12:45</div>
+                <div>Informatyka</div>
+                <div>3 A - Władza Z.</div>
+                <div>Sala nr 3</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ostatnie powiadomienia -->
+    <div class="box">
+        <h2>Ostatnie Powiadomienia</h2>
+        <div class="list-item">
+            <span>Spotkanie z rodzicami w piątek</span>
+            <button>Szczegóły</button>
+        </div>
+        <div class="list-item">
+            <span>Przypomnienie o opłacie za obiady</span>
+            <button>Szczegóły</button>
+        </div>
+    </div>
+
+    <!-- Ostatnie oceny -->
+    <div class="box">
+        <h2>Ostatnie Oceny</h2>
+        <div class="list-item">
+            <span>Matematyka: 5</span>
+            <button>Szczegóły</button>
+        </div>
+        <div class="list-item">
+            <span>Język polski: 4+</span>
+            <button>Szczegóły</button>
+        </div>
+    </div>
+
+    <!-- Nadchodzące sprawdziany i zadania -->
+    <div class="box">
+        <h2>Nadchodzące Sprawdziany i Zadania</h2>
+        <div class="list-item">
+            <span>Sprawdzian z matematyki - 20.12.2024</span>
+            <button>Szczegóły</button>
+        </div>
+        <div class="list-item">
+            <span>Praca domowa z biologii - 18.12.2024</span>
+            <button>Szczegóły</button>
+        </div>
+    </div>
+
+
+    <!-- Stopka -->
+    <footer>
+        <p>Zespół Szkół XYZ<br>ul. Edukacyjna 12, 00-123 Warszawa<br>tel. (22) 123-45-67 | email: sekretariat@xyz.edu.pl</p>
+        <div class="support">
+            <a href="#">Kontakt z supportem</a>
+        </div>
+        <p>&copy; 2024 DEMBIL.inc. Wszelkie prawa zastrzeżone.</p>
+    </footer>
+
+    <script>
+        // Funkcja do otwierania i zamykania menu
+        function toggleMenu() {
+            const menu = document.getElementById('menu');
+            menu.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
