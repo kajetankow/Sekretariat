@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oceny</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff;
+            color: #333;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #0077cc;
+            color: white;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .header-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logout button {
+            background-color: #cc0000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        .logout button:hover {
+            background-color: #990000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            padding: 15px;
+            background-color: #b0def8;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            background-color: #005fa3;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #003f73;
+        }
+
+        .grades-container {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .subject-section {
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .subject-section h2 {
+            text-align: center;
+            margin: 0;
+            padding: 10px 0;
+            background-color: #0077cc;
+            color: white;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .grades {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            background: white;
+            padding: 15px;
+            border-radius: 0 0 8px 8px;
+           
+        }
+
+        .grade-tile {
+            flex: 0 0 calc(33.333% - 10px);
+            background-color: white;
+            color: white;
+            max-width: 100px;
+            height: 100px;
+            
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .grade-tile:hover {
+            transform: scale(1.05);
+        }
+
+        .grade-tile.grade-1 {
+            background-color: #e74c3c;
+        }
+
+        .grade-tile.grade-2 {
+            background-color: #f1c40f;
+        }
+
+        .grade-tile.grade-3 {
+            background-color: #e67e22;
+        }
+
+        .grade-tile.grade-4 {
+            background-color: #3498db;
+        }
+
+        .grade-tile.grade-5 {
+            background-color: #2ecc71;
+        }
+
+        .grade-tile .grade {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 10px;
+            color: white;
+        }
+
+        .grade-tile .details {
+            margin-top: 5px;
+            font-size: 14px;
+            color: white;
+        }
+
+        footer {
+            background-color: #003f73;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: auto;
+        }
+
+        footer a {
+            color: #f0f8ff;
+            text-decoration: underline;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .modal-content h3 {
+            margin: 0 0 10px;
+            color: #0077cc;
+        }
+
+        .modal-content p {
+            margin: 5px 0;
+        }
+
+        .close-btn {
+            background: #cc0000;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .close-btn:hover {
+            background: #990000;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Witaj, Adam!</h1>
+        <div class="header-info">
+            <span>Adam Polak, uczeń</span>
+            <span>Pt, 15.11.2024 | 13:00</span>
+            <div class="logout">
+                <button>Wyloguj się</button>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <a href="uczen.html">Strona główna</a>
+        <a href="#">Plan zajęć</a>
+        <a href="oceny.html">Oceny</a>
+        <a href="#">Sprawdziany</a>
+        <a href="#">Zadania domowe</a>
+        <a href="#">Powiadomienia</a>
+        <a href="#">Poczta</a>
+        <a href="#">Ustawienia</a>
+    </nav>
+
+    <div class="grades-container">
+        <div class="subject-section">
+            <h2>Matematyka</h2>
+            <div class="grades">
+                <div class="grade-tile grade-5" onclick="showModal('5', 'Aktywność', '14.11.2024 08:00', 'Urban K.', '0.5')">
+                    <div class="grade">5</div>
+                    <div class="details">Aktywność<br>Waga: 0.5</div>
+                </div>
+                <div class="grade-tile grade-5" onclick="showModal('5', 'Sprawdzian', '12.11.2024 09:50', 'Urban K.', '1.5')">
+                    <div class="grade">5</div>
+                    <div class="details">Sprawdzian<br>Waga: 1.5</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="subject-section">
+            <h2>Język Polski</h2>
+            <div class="grades">
+                <div class="grade-tile grade-4" onclick="showModal('4', 'Aktywność', '13.11.2024 10:45', 'Bem B.', '0.5')">
+                    <div class="grade">4</div>
+                    <div class="details">Aktywność<br>Waga: 0.5</div>
+                </div>
+                <div class="grade-tile grade-3" onclick="showModal('3', 'Sprawdzian', '10.11.2024 12:00', 'Bem B.', '1.5')">
+                    <div class="grade">3</div>
+                    <div class="details">Sprawdzian<br>Waga: 1.5</div>
+                </div>
+                <div class="grade-tile grade-1" onclick="showModal('1', 'Kartkówka', '09.11.2024 11:30', 'Bem B.', '1.0')">
+                    <div class="grade">1</div>
+                    <div class="details">Kartkówka<br>Waga: 1.0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="subject-section">
+            <h2>Fizyka</h2>
+            <div class="grades">
+                <div class="grade-tile grade-1" onclick="showModal('1', 'Sprawdzian', '08.11.2024 10:00', 'Tarnawa M.', '1.5')">
+                    <div class="grade">1</div>
+                    <div class="details">Sprawdzian<br>Waga: 1.5</div>
+                </div>
+            </div>
+        </div>
+    
+
+    <div class="modal" id="gradeModal">
+        <div class="modal-content">
+            <h3>Szczegóły oceny</h3>
+            <p><strong>Ocena:</strong> <span id="grade"></span></p>
+            <p><strong>Rodzaj:</strong> <span id="type"></span></p>
+            <p><strong>Data:</strong> <span id="date"></span></p>
+            <p><strong>Nauczyciel:</strong> <span id="teacher"></span></p>
+            <p><strong>Waga:</strong> <span id="weight"></span></p>
+            <button class="close-btn" onclick="closeModal()">Zamknij</button>
+        </div>
+    </div>
+    <div class="subject-section">
+        <h2>Informatyka</h2>
+        <div class="grades">
+            <div class="grade-tile grade-5" onclick="showModal('5+', 'Aktywność', '12.11.2024 14:00', 'Kowalski P.', '0.5')">
+                <div class="grade">5+</div>
+                <div class="details">Aktywność<br>Waga: 0.5</div>
+            </div>
+            <div class="grade-tile grade-4" onclick="showModal('4', 'Projekt', '10.11.2024 10:00', 'Kowalski P.', '1.0')">
+                <div class="grade">4</div>
+                <div class="details">Projekt<br>Waga: 1.0</div>
+            </div>
+            <div class="grade-tile grade-3" onclick="showModal('3', 'Sprawdzian', '08.11.2024 12:00', 'Kowalski P.', '1.5')">
+                <div class="grade">3</div>
+                <div class="details">Sprawdzian<br>Waga: 1.5</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="subject-section">
+        <h2>Geografia</h2>
+        <div class="grades">
+            <div class="grade-tile grade-5" onclick="showModal('5', 'Aktywność', '13.11.2024 11:00', 'Nowak R.', '0.5')">
+                <div class="grade">5</div>
+                <div class="details">Aktywność<br>Waga: 0.5</div>
+            </div>
+            <div class="grade-tile grade-4" onclick="showModal('4+', 'Kartkówka', '09.11.2024 09:00', 'Nowak R.', '1.0')">
+                <div class="grade">4+</div>
+                <div class="details">Kartkówka<br>Waga: 1.0</div>
+            </div>
+            <div class="grade-tile grade-2" onclick="showModal('2', 'Sprawdzian', '07.11.2024 08:30', 'Nowak R.', '1.5')">
+                <div class="grade">2</div>
+                <div class="details">Sprawdzian<br>Waga: 1.5</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="subject-section">
+        <h2>Wychowanie Fizyczne</h2>
+        <div class="grades">
+            <div class="grade-tile grade-5" onclick="showModal('5', 'Aktywność', '15.11.2024 13:30', 'Kozłowski A.', '0.5')">
+                <div class="grade">5</div>
+                <div class="details">Aktywność<br>Waga: 0.5</div>
+            </div>
+            <div class="grade-tile grade-4" onclick="showModal('4', 'Test sprawnościowy', '12.11.2024 11:00', 'Kozłowski A.', '1.0')">
+                <div class="grade">4</div>
+                <div class="details">Test sprawnościowy<br>Waga: 1.0</div>
+            </div>
+            <div class="grade-tile grade-3" onclick="showModal('3', 'Bieg na czas', '10.11.2024 10:00', 'Kozłowski A.', '0.5')">
+                <div class="grade">3</div>
+                <div class="details">Bieg na czas<br>Waga: 0.5</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="subject-section">
+        <h2>Język Angielski</h2>
+        <div class="grades">
+            <div class="grade-tile grade-4" onclick="showModal('4+', 'Wypracowanie', '13.11.2024 10:00', 'Smith J.', '1.0')">
+                <div class="grade">4+</div>
+                <div class="details">Wypracowanie<br>Waga: 1.0</div>
+            </div>
+            <div class="grade-tile grade-5" onclick="showModal('5', 'Kartkówka', '10.11.2024 09:00', 'Smith J.', '0.5')">
+                <div class="grade">5</div>
+                <div class="details">Kartkówka<br>Waga: 0.5</div>
+            </div>
+            <div class="grade-tile grade-3" onclick="showModal('3', 'Sprawdzian', '08.11.2024 12:00', 'Smith J.', '1.5')">
+                <div class="grade">3</div>
+                <div class="details">Sprawdzian<br>Waga: 1.5</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="subject-section">
+        <h2>Chemia</h2>
+        <div class="grades">
+            <div class="grade-tile grade-2" onclick="showModal('2', 'Aktywność', '15.11.2024 08:00', 'Kowalska M.', '0.5')">
+                <div class="grade">2</div>
+                <div class="details">Aktywność<br>Waga: 0.5</div>
+            </div>
+            <div class="grade-tile grade-3" onclick="showModal('3+', 'Laboratorium', '14.11.2024 09:00', 'Kowalska M.', '1.0')">
+                <div class="grade">3+</div>
+                <div class="details">Laboratorium<br>Waga: 1.0</div>
+            </div>
+            <div class="grade-tile grade-4" onclick="showModal('4', 'Sprawdzian', '12.11.2024 10:00', 'Kowalska M.', '1.5')">
+                <div class="grade">4</div>
+                <div class="details">Sprawdzian<br>Waga: 1.5</div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <footer>
+        <p>Zespół Szkół XYZ<br>ul. Edukacyjna 12, 00-123 Warszawa<br>tel. (22) 123-45-67 | email: sekretariat@xyz.edu.pl</p>
+        <div class="support">
+            <a href="#">Kontakt z supportem</a>
+        </div>
+        <p>&copy; 2024 DEMBIL.inc. Wszelkie prawa zastrzeżone.</p>
+    </footer>
+
+    <script>
+        function showModal(grade, type, date, teacher, weight) {
+            document.getElementById('grade').textContent = grade;
+            document.getElementById('type').textContent = type;
+            document.getElementById('date').textContent = date;
+            document.getElementById('teacher').textContent = teacher;
+            document.getElementById('weight').textContent = weight;
+            document.getElementById('gradeModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('gradeModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

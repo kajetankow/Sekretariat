@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dziennik Ucznia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f0f8ff;
+            color: #333;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #0077cc;
+            color: white;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .header-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-info span {
+            font-size: 16px;
+        }
+
+        .logout button {
+            background-color: #cc0000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        .logout button:hover {
+            background-color: #990000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            padding: 15px;
+            background-color: #b0def8;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            background-color: #005fa3;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #003f73;
+        }
+
+        .next-lesson {
+            text-align: center;
+            background-color: #e9d502;
+            padding: 10px;
+            font-weight: bold;
+            margin: 20px auto;
+            border-radius: 40px;
+            width: 60%;
+        }
+
+        .main-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .plan-section {
+            flex: 2;
+            min-width: 60%;
+        }
+
+        .right-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .box {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .box h2 {
+            margin-top: 0;
+            color: #0077cc;
+        }
+
+        .timetable {
+            display: grid;
+            gap: 2px;
+            background-color: #ccc;
+            padding: 10px;
+            margin: 20px auto;
+            width: 100%;
+            max-width: 1200px;
+            border-radius: 10px;
+        }
+
+        .header, .row {
+            display: grid;
+            grid-template-columns: 100px repeat(5, 1fr);
+            background-color: #fff;
+        }
+
+        .header > div, .row > div {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            background-color: #eaf4ff;
+        }
+
+        .row > div:nth-child(odd) {
+            background-color: #d6e9ff;
+        }
+
+        .time {
+            background-color: #ddd;
+            font-weight: bold;
+        }
+
+        .list-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f5faff;
+            border-radius: 5px;
+        }
+
+        .list-item .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #0077cc;
+        }
+
+        .list-item button {
+            background-color: #0077cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        .list-item button:hover {
+            background-color: #005fa3;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+
+            .plan-section,
+            .right-section {
+                min-width: 100%;
+            }
+        }
+        footer {
+            background-color: #003f73;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: auto;
+        }
+
+        footer a {
+            color: #f0f8ff;
+            text-decoration: underline;
+        }
+
+        footer .support {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Witaj, Adam!</h1>
+        <div class="header-info">
+            <span>Adam Polak, uczeń</span>
+            <span>Pt, 15.11.2024 | 13:00</span>
+            <div class="logout">
+                <button>Wyloguj się</button>
+            </div>
+        </div>
+    </header>
+    <nav>
+        <a href="uczen.html">Strona główna</a>
+        <a href="#">Plan zajęć</a>
+        <a href="oceny.html">Oceny</a>
+        <a href="#">Sprawdziany</a>
+        <a href="#">Zadania domowe</a>
+        <a href="#">Powiadomienia</a>
+        <a href="#">Poczta</a>
+        <a href="#">Ustawienia</a>
+    </nav>
+    <div class="next-lesson">
+        <p>Następna lekcja: Matematyka, sala 12, za 25 minut</p>
+    </div>
+    <div class="main-container">
+        <div class="plan-section">
+            <div class="box">
+                <h2>Plan Lekcji</h2>
+                
+            <div class="timetable">
+                <div class="header">
+                    <div>Godzina</div>
+                    <div>Poniedziałek</div>
+                    <div>Wtorek</div>
+                    <div>Środa</div>
+                    <div>Czwartek</div>
+                    <div>Piątek</div>
+                </div>
+                <div class="row">
+                    <div class="time">08:00</div>
+                    <div>Geografia<br>3 A - Kumity P.<br>Sala nr 3</div>
+                    <div>Religia<br>3 A - Rozmus M.<br>Sala nr 3</div>
+                    <div>Matematyka<br>3 A - Urban K.<br>Sala nr 3</div>
+                    <div>Język polski<br>3 A - Bem B.<br>Sala nr 3</div>
+                    <div>Język polski<br>3 A - Bem B.<br>Sala nr 3</div>
+                </div>
+                <div class="row">
+                    <div class="time">08:55</div>
+                    <div>Język polski<br>3 A - Bem B.<br>Sala nr 3</div>
+                    <div>Chemia<br>3 A - Kowalski M.<br>Sala nr 3</div>
+                    <div>Język angielski<br>3 A - Koziełkowska Z.<br>Sala nr 3</div>
+                    <div>Biologia<br>3 A - Stankiewicz K.<br>Sala nr 3</div>
+                    <div>Biologia<br>3 A - Stankiewicz K.<br>Sala nr 3</div>
+                </div>
+                <div class="row">
+                    <div class="time">09:50</div>
+                    <div>Matematyka<br>3 A - Urban K.<br>Sala nr 4</div>
+                    <div>Matematyka<br>3 A - Urban K.<br>Sala nr 4</div>
+                    <div>Język polski<br>3 A - Bem B.<br>Sala nr 5</div>
+                    <div>Historia<br>3 A - Nowak J.<br>Sala nr 4</div>
+                    <div>Matematyka<br>3 A - Urban K.<br>Sala nr 4</div>
+                </div>
+                <div class="row">
+                    <div class="time">10:45</div>
+                    <div>Język angielski<br>3 A - Koziełkowska Z.<br>Sala nr 3</div>
+                    <div>Wiedza o społeczeństwie<br>3 A - Nowak J.<br>Sala nr 3</div>
+                    <div>Język polski<br>3 A - Bem B.<br>Sala nr 5</div>
+                    <div>Godzina wychowawcza<br>3 A - Nowak J.<br>Sala nr 3</div>
+                    <div>Biologia<br>3 A - Stankiewicz K.<br>Sala nr 3</div>
+                </div>
+                <div class="row">
+                    <div class="time">11:40</div>
+                    <div>Język angielski<br>3 A - Koziełkowska Z.<br>Sala nr 3</div>
+                    <div>Fizyka<br>3 A - Tarnawa M.<br>Sala nr 3</div>
+                    <div>Matematyka<br>3 A - Urban K.<br>Sala nr 3</div>
+                    <div>Język niemiecki<br>3 A - Władza Z.<br>Sala nr 3</div>
+                    <div>Chemia<br>3 A - Kowalski M.<br>Sala nr 3</div>
+                </div>
+                <div class="row">
+                    <div class="time">12:45</div>
+                    <div>Muzyka<br>3 A - Nowak O.<br>Sala nr 3</div>
+                    <div></div>
+                    <div></div>
+                    <div>W-F<br>3 A chłopcy - Kowalski M.<br>Sala nr 3</div>
+                    <div>Geografia<br>3 A - Kumity P.<br>Sala nr 3</div>
+                </div>
+                <div class="row">
+                    <div class="time">13:30</div>
+                    <div>Technika<br>3 A - Nowak O.<br>Sala nr 3</div>
+                    <div></div>
+                    <div></div>
+                    <div>W-F<br>3 A dziewczyny - Nowak A.<br>Sala nr 3</div>
+                    <div>Informatyka<br>3 A - Władza Z.<br>Sala nr 3</div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="right-section">
+            <div class="box">
+                <h2>Ostatnie Oceny</h2>
+                <div class="list-item">
+                    <div class="dot"></div>
+                    <span>Matematyka: 5</span>
+                    <button>Szczegóły</button>
+                </div>
+                <div class="list-item">
+                    <div class="dot"></div>
+                    <span>Polski: 4+</span>
+                    <button>Szczegóły</button>
+                </div>
+                <div class="list-item">
+                    <div class="dot"></div>
+                    <span>Historia: 4</span>
+                    <button>Szczegóły</button>
+                </div>
+            </div>
+            <div class="box">
+                <h2>Nadchodzące Sprawdziany</h2>
+                <div class="list-item">
+                    <div class="dot"></div>
+                    <span>Matematyka - 16.11.2024</span>
+                    <button>Szczegóły</button>
+                </div>
+                <div class="list-item">
+                    <div class="dot"></div>
+                    <span>Geografia - 18.11.2024</span>
+                    <button>Szczegóły</button>
+                </div>
+            </div>
+            <div class="box">
+                <h2>Zadania Domowe</h2>
+                <div class="list-item">
+                    <div class="dot"></div>
+                    <span>Praca domowa z matematyki</span>
+                    <button>Szczegóły</button>
+                </div>
+                <div class="list-item">
+                    <div class="dot"></div>
+                    <span>Esej z języka angielskiego</span>
+                    <button>Szczegóły</button>
+                </div>
+                <div class="list-item">
+                    <div class="dot"></div>
+                    <span>asdads</span>
+                    <button>Szczegóły</button>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <footer>
+        <p>Zespół Szkół XYZ<br>ul. Edukacyjna 12, 00-123 Warszawa<br>tel. (22) 123-45-67 | email: sekretariat@xyz.edu.pl</p>
+        <div class="support">
+            <a href="#">Kontakt z supportem</a>
+        </div>
+        <p>&copy; 2024 DEMBIL.inc. Wszelkie prawa zastrzeżone.</p>
+    </footer>
+</body>
+</html>
